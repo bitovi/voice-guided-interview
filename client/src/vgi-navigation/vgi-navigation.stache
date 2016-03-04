@@ -1,0 +1,25 @@
+<ul class="pagination pagination-lg">
+  <li {{#if firstPage}}class="disabled"{{/if}}>
+    {{#if firstPage}}
+      <span aria-hidden="true">&laquo;</span>
+    {{else}}
+      <a ($click)="previous()" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    {{/if}}
+  </li>
+
+  {{#each questions}}
+  <li {{#is %index questionNumber}}class="active"{{/is}}><a ($click)="goToPage(%index)">{{plusOne(%index)}}</a></li>
+  {{/each}}
+
+  <li {{#if lastPage}}class="disabled"{{/if}}>
+    {{#if lastPage}}
+      <span aria-hidden="true">&raquo;</span>
+    {{else}}
+      <a ($click)="next()" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    {{/if}}
+  </li>
+</ul>

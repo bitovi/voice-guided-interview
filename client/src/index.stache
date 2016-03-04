@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <title>{{title}}</title>
+    {{asset "css"}}
+    {{asset "html5shiv"}}
+  </head>
+  <body>
+    <can-import from="voice-guided-interview/styles.less" />
+    <can-import from="bootstrap/less/bootstrap.less" />
+    <can-import from="voice-guided-interview/app" export-as="viewModel" />
+
+    <div class="container-fluid">
+      <nav>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+            <h1>Voice Guided Interview</h1>
+          </div>
+        </div>
+      </nav>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-4">
+          <can-import from="voice-guided-interview/vgi-answer-debug/">
+            {{#if isPending}}
+              <div>Loading Answer Debug...</div>
+            {{else}}
+              {{#if questions}}
+                <vgi-answer-debug
+                  {questions}="questions"
+                  {answers}="answers">
+                </vgi-answer-debug>
+              {{/if}}
+            {{/if}}
+          </can-import>
+        </div>
+
+        <div class="col-xs-12 col-sm-8 col-md-8">
+          <div class="row">
+            <div class="col-xs-12 col-sm-8 col-md-8">
+              <can-import from="voice-guided-interview/vgi-question/">
+                {{#if isPending}}
+                  <div>Loading Question...</div>
+                {{else}}
+                  {{#each questions}}
+                    <vgi-question
+                      {{#eq currentQuestionIndex %index}}class="current-question"{{/eq}}
+                      {(answers)}="answers"
+                      {question}="question"
+                      {variable}="variable"
+                      {options}="options"
+                      {type}="type"
+                      {(question-number)}="%index">
+                    </vgi-question>
+                  {{/if}}
+                {{/if}}
+              </can-import>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-8 col-md-8">
+              <can-import from="voice-guided-interview/vgi-navigation/">
+                {{#if isPending}}
+                  <div>Loading Navigation...</div>
+                {{else}}
+                  {{#if questions}}
+                    <vgi-navigation
+                      {(question-number)}="currentQuestionIndex"
+                      {questions}="questions">
+                    </vgi-navigation>
+                  {{/if}}
+                {{/if}}
+              </can-import>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{asset "inline-cache"}}
+
+    {{#switch env.NODE_ENV}}
+      {{#case "production"}}
+        <script src="{{joinBase 'node_modules/steal/steal.production.js'}}"  main="voice-guided-interview/index.stache!done-autorender"></script>
+      {{/case}}
+      {{#default}}
+        <script src="/node_modules/steal/steal.js"></script>
+      {{/default}}
+    {{/switch}}
+  </body>
+</html>

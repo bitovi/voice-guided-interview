@@ -1,0 +1,14 @@
+{{#if variablesAndAnswers}}
+  <table>
+    <tr>
+      <th>Variable</th>
+      <th class="answer">Answer</th>
+    </tr>
+    {{#each variablesAndAnswers}}
+    <tr>
+      <td>{{variable}}</td>
+      <td class="answer">{{ display(answer) }}</td>
+    </tr>
+    {{/each}}
+  </table>
+{{/if}}

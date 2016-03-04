@@ -1,0 +1,35 @@
+<div>
+  <p>{{question}}</p>
+
+  {{#switch type}}
+    {{#case "text"}}
+      <p><input {($value)}="answer" type="text" /></p>
+    {{/case}}
+
+    {{#case "date"}}
+      <p><input {($value)}="answer" type="date" /></p>
+    {{/case}}
+
+    {{#case "radio"}}
+      {{#each options}}
+        <p><input type="radio" can-value="answer" value="{{.}}" /> {{.}}</p>
+      {{/each}}
+    {{/case}}
+
+    {{#case "checkbox"}}
+      {{#each options}}
+        <p><input type="checkbox" ($click)="setCheckboxAnswer(., %element.checked)" /> {{.}}</p>
+      {{/each}}
+    {{/case}}
+
+    {{#case "textpick"}}
+    <select {($value)}="answer">
+      u
+        {{#each options}}
+          <option {$value}=".">{{.}}</option>
+        {{/each}}
+      </select>
+    {{/case}}
+  {{/switch}}
+  <input type="hidden" {($value)}="answer" />
+</div>
