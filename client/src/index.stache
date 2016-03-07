@@ -10,30 +10,24 @@
     <can-import from="voice-guided-interview/app" export-as="viewModel" />
 
     <div class="container-fluid">
-      <nav>
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <h1>Voice Guided Interview</h1>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+          <nav class="navbar navbar-default">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <h1>Voice Guided Interview</h1>
+              </div>
+              <ul class="nav navbar-nav navbar-right nav-pills">
+                <li><a href="#" ($click)="toggleAnswerDebug()">
+                  <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </a></li>
+              </ul>
+            </nav>
           </div>
         </div>
-      </nav>
+      </div>
 
       <div class="row">
-        <div class="col-xs-12 col-sm-4 col-md-4">
-          <can-import from="voice-guided-interview/vgi-answer-debug/">
-            {{#if isPending}}
-              <div>Loading Answer Debug...</div>
-            {{else}}
-              {{#if questions}}
-                <vgi-answer-debug
-                  {questions}="questions"
-                  {answers}="answers">
-                </vgi-answer-debug>
-              {{/if}}
-            {{/if}}
-          </can-import>
-        </div>
-
         <div class="col-xs-12 col-sm-8 col-md-8">
           <div class="row">
             <div class="col-xs-12 col-sm-8 col-md-8">
@@ -72,6 +66,23 @@
               </can-import>
             </div>
           </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-4 col-md-4">
+          {{#if showAnswerDebug}}
+            <can-import from="voice-guided-interview/vgi-answer-debug/">
+              {{#if isPending}}
+                <div>Loading Answer Debug...</div>
+              {{else}}
+                {{#if questions}}
+                  <vgi-answer-debug
+                    {questions}="questions"
+                    {answers}="answers">
+                  </vgi-answer-debug>
+                {{/if}}
+              {{/if}}
+            </can-import>
+          {{/if}}
         </div>
       </div>
     </div>

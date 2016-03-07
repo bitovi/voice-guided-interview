@@ -35,7 +35,16 @@ const AppViewModel = AppMap.extend({
       Type: List,
       value: [],
       serialize: false
+    },
+    showAnswerDebug: {
+      type: 'boolean',
+      value: false,
+      serialize: false
     }
+  },
+
+  toggleAnswerDebug() {
+    this.attr('showAnswerDebug', !this.attr('showAnswerDebug'));
   }
 });
 
