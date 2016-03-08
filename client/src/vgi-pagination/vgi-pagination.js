@@ -1,8 +1,8 @@
 import Component from 'can/component/';
 import Map from 'can/map/';
 import 'can/map/define/';
-import './vgi-navigation.less!';
-import template from './vgi-navigation.stache!';
+import './vgi-pagination.less!';
+import template from './vgi-pagination.stache!';
 
 export const ViewModel = Map.extend({
   define: {
@@ -38,7 +38,7 @@ export const ViewModel = Map.extend({
 });
 
 export default Component.extend({
-  tag: 'vgi-navigation',
+  tag: 'vgi-pagination',
   viewModel: ViewModel,
   template,
   helpers: {

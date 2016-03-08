@@ -22,8 +22,8 @@
                   <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                 </a></li>
               </ul>
-            </nav>
-          </div>
+            </div>
+          </nav>
         </div>
       </div>
 
@@ -52,15 +52,15 @@
           </div>
           <div class="row">
             <div class="col-xs-12 col-sm-8 col-md-8">
-              <can-import from="voice-guided-interview/vgi-navigation/">
+              <can-import from="voice-guided-interview/vgi-pagination/">
                 {{#if isPending}}
                   <div>Loading Navigation...</div>
                 {{else}}
                   {{#if questions}}
-                    <vgi-navigation
+                    <vgi-pagination
                       {(question-number)}="currentQuestionIndex"
                       {questions}="questions">
-                    </vgi-navigation>
+                    </vgi-pagination>
                   {{/if}}
                 {{/if}}
               </can-import>
