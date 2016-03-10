@@ -16,7 +16,8 @@
     "body-parser": "^1.15.0",
     "debug": "^2.2.0",
     "feathers": "^2.0.0",
-    "feathers-rest": "^1.2.3"
+    "feathers-rest": "^1.2.3",
+    "natural-brain": "^0.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.6.4",

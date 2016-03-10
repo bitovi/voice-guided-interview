@@ -78,6 +78,7 @@ const AppViewModel = AppMap.extend({
     if (event.results.length > 0) {
       let transcripts = event.results[event.results.length-1];
       if(transcripts.isFinal) {
+        console.log('heard', transcripts[0].transcript);
 
         voiceConnection.getList({
           transcript: transcripts[0].transcript
