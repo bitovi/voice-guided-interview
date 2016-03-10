@@ -4,6 +4,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var debug = require('debug')('VGI:services/voice');
+
 module.exports = function () {
   function QuestionsService() {
     // train NaturalBrain with voice actions
@@ -14,11 +16,18 @@ module.exports = function () {
   _createClass(QuestionsService, [{
     key: 'find',
     value: function find(params) {
-      var results = [{
-        action: 'navigate',
-        subaction: 'next'
-      }];
-      console.log('find req:', params, 'res:', results);
+      var results = undefined;
+
+      debug('FIND', params);
+
+      if (!results) {
+        results = [{
+          action: 'answer',
+          subaction: 'set',
+          value: params.query.transcript
+        }];
+      }
+
       return Promise.resolve(results);
     }
   }]);

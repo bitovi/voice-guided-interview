@@ -56,5 +56,16 @@ export default Component.extend({
     getAnswer(val) {
       return 'answer.' + val;
     }
-  }
+  },
+
+  events: {
+    '{window} voice': function(el, ev, { action, subaction, value }) {
+      if (action === 'answer') {
+        if (subaction === 'set') {
+          this.viewModel.attr('answer', value);
+        }
+      }
+    }
+  },
+
 });

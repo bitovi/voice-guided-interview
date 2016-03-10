@@ -9,7 +9,6 @@ import voiceConnection from 'voice-guided-interview/models/voice';
 import 'can/map/define/';
 import 'can/route/pushstate/';
 
-
 const SpeechRecognition = window.SpeechRecognition ||
                           window.webkitSpeechRecognition ||
                           window.mozSpeechRecognition ||
@@ -79,9 +78,15 @@ const AppViewModel = AppMap.extend({
     if (event.results.length > 0) {
       let transcripts = event.results[event.results.length-1];
       if(transcripts.isFinal) {
+
         voiceConnection.getList({
-          action: transcripts[0].transcript
-        }).then(action => this.handleVoiceAction(action));
+          transcript: transcripts[0].transcript
+        }).then(resp => {
+          resp.forEach(action => {
+            $(window).trigger('voice', action);
+          });
+        });
+
         this.stop();
       }
     }
@@ -98,12 +103,6 @@ const AppViewModel = AppMap.extend({
 
   stop() {
     this.recognition.stop();
-  },
-
-  handleVoiceAction(action) {
-    action.forEach(({ action, subaction }) => {
-      $(window).trigger('voice', [action, subaction]);
-    });
   }
 });
 
