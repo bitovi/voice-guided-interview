@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import Component from 'can/component/';
 import Map from 'can/map/';
 import 'can/map/define/';
@@ -41,6 +42,23 @@ export default Component.extend({
   tag: 'vgi-pagination',
   viewModel: ViewModel,
   template,
+  events: {
+    '{window} voice': function(el, ev, action, subaction) {
+      if (action === 'navigate') {
+        if (subaction === 'next') {
+          if (!this.viewModel.attr('lastPage')) {
+            this.viewModel.next();
+          }
+        }
+
+        if (subaction === 'prev') {
+          if (!this.viewModel.attr('firstPage')) {
+            this.viewModel.prev();
+          }
+        }
+      }
+    }
+  },
   helpers: {
     plusOne(val) {
       return val + 1;

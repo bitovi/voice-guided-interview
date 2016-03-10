@@ -18,7 +18,10 @@
                 <h1>Voice Guided Interview</h1>
               </div>
               <ul class="nav navbar-nav navbar-right nav-pills">
-                <li><a href="#" ($click)="toggleAnswerDebug()">
+                <li><a href="javascript:void(0)" ($click)="toggleListening()">
+                  <span class="glyphicon glyphicon-headphones" aria-hidden="true"></span>
+                </a></li>
+                <li><a href="javascript:void(0)" ($click)="toggleAnswerDebug()">
                   <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                 </a></li>
               </ul>
