@@ -4,34 +4,28 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var BurgerService = require('./categories/burger');
-var PizzaService = require('./categories/pizza');
-var SandwichService = require('./categories/sandwich');
-
-var debug = require('debug')('VGI:services/questions');
+var debug = require('debug')('VGI:services/categories/burger');
 
 module.exports = function () {
-  function CategoryService(classifier) {
-    _classCallCheck(this, CategoryService);
+  function BurgerService(classifier) {
+    _classCallCheck(this, BurgerService);
 
     this.classifier = classifier;
 
-    this.categoriesServices = {
-      burger: new BurgerService(classifier),
-      pizza: new PizzaService(classifier),
-      sandwich: new SandwichService(classifier)
-    };
-
     this.questions = [{
-      question: 'What do you want for lunch today?',
-      variable: 'category',
-      options: ['Burger', 'Pizza', 'Sandwich']
+      question: 'What kind of meat do you like?',
+      variable: 'burger-meat',
+      options: ['Beef', 'Turkey']
+    }, {
+      question: 'What kind of bun do you want?',
+      variable: 'burger-bun',
+      options: ['Wheat', 'White', 'Sesame']
     }];
 
     this.train();
   }
 
-  _createClass(CategoryService, [{
+  _createClass(BurgerService, [{
     key: 'train',
     value: function train() {
       var _this = this;
@@ -48,16 +42,9 @@ module.exports = function () {
   }, {
     key: 'find',
     value: function find(params) {
-      var category = params.query.category;
-
-
-      if (category) {
-        return this.categoriesServices[category].find(params);
-      } else {
-        return Promise.resolve(this.questions);
-      }
+      return Promise.resolve(this.questions);
     }
   }]);
 
-  return CategoryService;
+  return BurgerService;
 }();

@@ -1,31 +1,50 @@
-module.exports = class QuestionsService {
-  constructor() {
+const BurgerService = require('./categories/burger');
+const PizzaService = require('./categories/pizza');
+const SandwichService = require('./categories/sandwich');
+
+const debug = require('debug')('VGI:services/questions');
+
+module.exports = class CategoryService {
+  constructor(classifier) {
+    this.classifier = classifier;
+
+    this.categoriesServices = {
+      burger: new BurgerService(classifier),
+      pizza: new PizzaService(classifier),
+      sandwich: new SandwichService(classifier)
+    };
+
     this.questions = [{
-      type: 'text',
-      question: 'What is your favorite fruit?',
-      variable: 'favorite'
-    }, {
-      type: 'radio',
-      question: 'Which fruit is red?',
-      variable: 'red',
+      question: 'What do you want for lunch today?',
+      variable: 'category',
       options: [
-        'Strawberry',
-        'Mango'
-      ]
-    }, {
-      type: 'checkbox',
-      question: 'What type of fruit do you like?',
-      variable: 'fruit',
-      options: [
-        'Apple',
-        'Orange',
-        'Banana',
-        'Peach'
+        'Burger',
+        'Pizza',
+        'Sandwich'
       ]
     }];
+
+    this.train();
+  }
+
+  train() {
+    this.questions.forEach(question => {
+      question.options.forEach(phrase => {
+        const label = `{"action":"answer","value":"${phrase}"}`;
+
+        debug('classifier.addDocument(' + phrase + ',' + label + ')');
+        this.classifier.addDocument(phrase, label);
+      });
+    });
   }
 
   find(params) {
-    return Promise.resolve(this.questions);
+    const { category } = params.query;
+
+    if (category) {
+      return this.categoriesServices[category].find(params);
+    } else {
+      return Promise.resolve(this.questions);
+    }
   }
 };

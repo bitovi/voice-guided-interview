@@ -58,15 +58,9 @@ export default Component.extend({
   },
 
   events: {
-    '{window} voice': function(el, ev, { action, subaction, value }) {
+    '{window} voice': function(el, ev, { action, value }) {
       if (action === 'answer') {
-        if (this.viewModel.attr('type') === 'checkbox') {
-          this.element.find('input.' + value.toLowerCase()).trigger('click');
-        } else {
-          if (subaction === 'set') {
-            this.viewModel.attr('answer', value);
-          }
-        }
+        this.viewModel.attr('answer', value);
       }
     }
   }

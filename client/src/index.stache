@@ -34,18 +34,17 @@
           </nav>
         </div>
       </div>
-
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-md-8">
+          {{#if currentQuestion}}
           <div class="row">
             <div class="col-xs-12 col-sm-8 col-md-8">
               <can-import from="voice-guided-interview/vgi-question/">
                 {{#if isPending}}
-                  <div>Loading Question...</div>
+                  Loading Question...
                 {{else}}
-                  {{#currentQuestion}}
+                  {{#with currentQuestion}}
                     <vgi-question
-                      class="current-question"
                       {(answers)}="answers"
                       {question}="question"
                       {variable}="variable"
@@ -53,35 +52,36 @@
                       {type}="type"
                       {(question-number)}="../currentQuestionIndex">
                     </vgi-question>
-                  {{/currentQuestion}}
+                {{/with}}
                 {{/if}}
               </can-import>
             </div>
           </div>
+          {{/if}}
+
+          {{#if questions}}
           <div class="row">
             <div class="col-xs-12 col-sm-8 col-md-8">
               <can-import from="voice-guided-interview/vgi-pagination/">
                 {{#if isPending}}
-                  <div>Loading Navigation...</div>
+                  Loading Pagination...
                 {{else}}
-                  {{#if questions}}
-                    <vgi-pagination
-                      {(question-number)}="currentQuestionIndex"
-                      {questions}="questions">
-                    </vgi-pagination>
-                  {{/if}}
+                  <vgi-pagination
+                    {(question-number)}="currentQuestionIndex"
+                    {questions}="questions">
+                  </vgi-pagination>
                 {{/if}}
               </can-import>
             </div>
           </div>
+          {{/if}}
         </div>
-
         <div class="col-xs-12 col-sm-4 col-md-4">
-          {{#if showAnswerDebug}}
-            <can-import from="voice-guided-interview/vgi-answer-debug/">
-              {{#if isPending}}
-                <div>Loading Answer Debug...</div>
-              {{else}}
+          <can-import from="voice-guided-interview/vgi-answer-debug/">
+            {{#if isPending}}
+              Loading Answer Debug...
+            {{else}}
+              {{#if showAnswerDebug}}
                 {{#if questions}}
                   <vgi-answer-debug
                     {questions}="questions"
@@ -89,8 +89,8 @@
                   </vgi-answer-debug>
                 {{/if}}
               {{/if}}
-            </can-import>
-          {{/if}}
+            {{/if}}
+          </can-import>
         </div>
       </div>
     </div>

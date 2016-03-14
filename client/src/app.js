@@ -4,7 +4,7 @@ import Map from 'can/map/'
 import List from 'can/list/'
 import route from "can/route/";
 import questionsConnection from 'voice-guided-interview/models/questions';
-import voiceConnection from 'voice-guided-interview/models/voice';
+import answerConnection from 'voice-guided-interview/models/answer';
 
 
 import 'can/map/define/';
@@ -28,6 +28,18 @@ const AppViewModel = AppMap.extend({
     }
     this.recognition.onresult = this.result.bind(this);
     this.recognition.onend = this.onEnd.bind(this);
+
+    this.bind('category', (vm, category) => {
+      if (category) {
+        category = category.toLowerCase();
+        questionsConnection.getList({ category })
+          .then(newQs => {
+            newQs.forEach(q => {
+              this.attr('questions').push(q);
+            });
+          });
+      }
+    });
   },
   define: {
     title: {
@@ -42,9 +54,11 @@ const AppViewModel = AppMap.extend({
     },
     questions: {
       get(last, setVal) {
-        this.attr('questionsPromise').then(setVal);
+        this.attr('questionsPromise').then(qs => {
+          setVal(new List(qs));
+        });
       },
-      Type: Map,
+      Type: List,
       serialize: false
     },
     currentQuestionIndex: {
@@ -64,9 +78,14 @@ const AppViewModel = AppMap.extend({
       value: [],
       serialize: false
     },
+    category: {
+      get() {
+        return this.attr('answers.0');
+      }
+    },
     showAnswerDebug: {
       type: 'boolean',
-      value: false,
+      value: true,
       serialize: false
     },
     listening: {
@@ -77,6 +96,12 @@ const AppViewModel = AppMap.extend({
     transcript: {
       type: 'string',
       serialize: false
+    },
+    showPagination: {
+      get() {
+        this.attr('questions.length') > 1;
+      },
+      serialze: false
     }
   },
 
@@ -96,28 +121,12 @@ const AppViewModel = AppMap.extend({
   result(event) {
     if (event.results.length > 0) {
       const transcripts = event.results[event.results.length-1];
-      const index = this.attr('currentQuestionIndex');
-      const currentQuestion = this.attr('questions')[index];
-      const options = currentQuestion.options;
-      const type = currentQuestion.type;
 
       if(transcripts.isFinal) {
         this.attr('transcript', transcripts[0].transcript);
 
-        const request = {
-          transcript: transcripts[0].transcript
-        };
-
-        if (options) {
-          Object.assign(request, { options });
-        }
-
-        if (type) {
-          Object.assign(request, { type });
-        }
-
-        voiceConnection
-          .getList(request)
+        answerConnection
+          .getList({ transcript: transcripts[0].transcript })
           .then(resp => {
             resp.forEach(action => {
               $(window).trigger('voice', action);

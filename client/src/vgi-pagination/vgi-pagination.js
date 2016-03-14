@@ -43,15 +43,15 @@ export default Component.extend({
   viewModel: ViewModel,
   template,
   events: {
-    '{window} voice': function(el, ev, { action, subaction }) {
+    '{window} voice': function(el, ev, { action, value }) {
       if (action === 'navigate') {
-        if (subaction === 'next') {
+        if (value === 'next') {
           if (!this.viewModel.attr('lastPage')) {
             this.viewModel.next();
           }
         }
 
-        if (subaction === 'prev') {
+        if (value === 'prev') {
           if (!this.viewModel.attr('firstPage')) {
             this.viewModel.previous();
           }

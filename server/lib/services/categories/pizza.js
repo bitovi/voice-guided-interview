@@ -4,34 +4,32 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var BurgerService = require('./categories/burger');
-var PizzaService = require('./categories/pizza');
-var SandwichService = require('./categories/sandwich');
-
-var debug = require('debug')('VGI:services/questions');
+var debug = require('debug')('VGI:services/categories/pizza');
 
 module.exports = function () {
-  function CategoryService(classifier) {
-    _classCallCheck(this, CategoryService);
+  function PizzaService(classifier) {
+    _classCallCheck(this, PizzaService);
 
     this.classifier = classifier;
 
-    this.categoriesServices = {
-      burger: new BurgerService(classifier),
-      pizza: new PizzaService(classifier),
-      sandwich: new SandwichService(classifier)
-    };
-
     this.questions = [{
-      question: 'What do you want for lunch today?',
-      variable: 'category',
-      options: ['Burger', 'Pizza', 'Sandwich']
+      question: 'Do you want meat on your pizza?',
+      variable: 'pizza-meat',
+      options: ['Yes', 'No']
+    }, {
+      question: 'How much cheese do you want?',
+      variable: 'pizza-cheese',
+      options: ['Regular', 'Extra']
+    }, {
+      question: 'What would you like to drink?',
+      variable: 'pizza-drink',
+      options: ['Water', 'Soda', 'Lemonade']
     }];
 
     this.train();
   }
 
-  _createClass(CategoryService, [{
+  _createClass(PizzaService, [{
     key: 'train',
     value: function train() {
       var _this = this;
@@ -48,16 +46,9 @@ module.exports = function () {
   }, {
     key: 'find',
     value: function find(params) {
-      var category = params.query.category;
-
-
-      if (category) {
-        return this.categoriesServices[category].find(params);
-      } else {
-        return Promise.resolve(this.questions);
-      }
+      return Promise.resolve(this.questions);
     }
   }]);
 
-  return CategoryService;
+  return PizzaService;
 }();

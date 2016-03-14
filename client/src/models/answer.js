@@ -3,5 +3,5 @@ import "can-connect/constructor/";
 import "can-connect/data/url/";
 
 export default connect(["constructor","data-url"], {
-  url: "/api/voice"
+  url: "/api/answer"
 });
