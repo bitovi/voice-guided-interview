@@ -29,22 +29,17 @@ export const ViewModel = Map.extend({
     }
   },
 
-  setCheckboxAnswer(val, checked) {
-    const index = this.attr('questionNumber');
-    let currentValue = this.attr('answers').attr(index);
+  setCheckboxAnswer(el, val, checked) {
+    const answers = [];
+    const $el = (el.type === 'checkbox') ? $(el).parent().parent() : $(el);
 
-    // handle clicking multiple checkboxes
-    if (!currentValue) {
-      currentValue = [ val ];
-    } else {
-      if (checked) {
-        currentValue.push(val);
-      } else {
-        currentValue.splice(currentValue.indexOf(val), 1);
+    $el.find('input[type="checkbox"]').each((i, el) => {
+      if (el.checked) {
+        answers.push( $(el).attr('class') );
       }
-    }
+    });
 
-    this.attr('answer', currentValue);
+    this.attr('answer', answers);
   }
 });
 
@@ -55,17 +50,25 @@ export default Component.extend({
   helpers: {
     getAnswer(val) {
       return 'answer.' + val;
+    },
+
+    toLowerCase(val) {
+      return val.toLowerCase();
     }
   },
 
   events: {
     '{window} voice': function(el, ev, { action, subaction, value }) {
       if (action === 'answer') {
-        if (subaction === 'set') {
-          this.viewModel.attr('answer', value);
+        if (this.viewModel.attr('type') === 'checkbox') {
+          this.element.find('input.' + value.toLowerCase()).trigger('click');
+        } else {
+          if (subaction === 'set') {
+            this.viewModel.attr('answer', value);
+          }
         }
       }
     }
-  },
+  }
 
 });

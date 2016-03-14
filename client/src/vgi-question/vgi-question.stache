@@ -18,13 +18,12 @@
 
     {{#case "checkbox"}}
       {{#each options}}
-        <p><input type="checkbox" ($click)="setCheckboxAnswer(., %element.checked)" /> {{.}}</p>
+      <p><input type="checkbox" ($click)="setCheckboxAnswer(%element, ., %element.checked)" class="{{toLowerCase(.)}}"/> {{.}}</p>
       {{/each}}
     {{/case}}
 
     {{#case "textpick"}}
     <select {($value)}="answer">
-      u
         {{#each options}}
           <option {$value}=".">{{.}}</option>
         {{/each}}

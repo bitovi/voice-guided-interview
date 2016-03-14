@@ -2,19 +2,15 @@ module.exports = class QuestionsService {
   constructor() {
     this.questions = [{
       type: 'text',
-      question: 'What is your name?',
-      variable: 'name'
-    }, {
-      type: 'date',
-      question: "What is today's date?",
-      variable: 'date'
+      question: 'What is your favorite fruit?',
+      variable: 'favorite'
     }, {
       type: 'radio',
-      question: 'How old are you?',
-      variable: 'age',
+      question: 'Which fruit is red?',
+      variable: 'red',
       options: [
-        'Young',
-        'Old'
+        'Strawberry',
+        'Mango'
       ]
     }, {
       type: 'checkbox',
@@ -23,21 +19,9 @@ module.exports = class QuestionsService {
       options: [
         'Apple',
         'Orange',
-        'Pear',
-        'Mango',
+        'Banana',
         'Peach'
       ]
-    }, {
-      type: 'textpick',
-      question: 'What type of bear is best?',
-      variable: 'bear',
-      options: [
-        'Black Bear',
-        'Brown Bear',
-        'Polar Bear',
-        'Grizzly Bear',
-        'Panda Bear'
-      ] 
     }];
   }
 

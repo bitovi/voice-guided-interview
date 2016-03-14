@@ -25,6 +25,11 @@
                   <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                 </a></li>
               </ul>
+              <div class="transcript">
+                {{#if transcript}}
+                  <p>You said: "{{transcript}}"</p>
+                {{/if}}
+              </div>
             </div>
           </nav>
         </div>
@@ -38,17 +43,17 @@
                 {{#if isPending}}
                   <div>Loading Question...</div>
                 {{else}}
-                  {{#each questions}}
+                  {{#currentQuestion}}
                     <vgi-question
-                      {{#eq currentQuestionIndex %index}}class="current-question"{{/eq}}
+                      class="current-question"
                       {(answers)}="answers"
                       {question}="question"
                       {variable}="variable"
                       {options}="options"
                       {type}="type"
-                      {(question-number)}="%index">
+                      {(question-number)}="../currentQuestionIndex">
                     </vgi-question>
-                  {{/if}}
+                  {{/currentQuestion}}
                 {{/if}}
               </can-import>
             </div>

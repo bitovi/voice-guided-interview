@@ -6,6 +6,7 @@ import route from "can/route/";
 import questionsConnection from 'voice-guided-interview/models/questions';
 import voiceConnection from 'voice-guided-interview/models/voice';
 
+
 import 'can/map/define/';
 import 'can/route/pushstate/';
 
@@ -17,7 +18,14 @@ const SpeechRecognition = window.SpeechRecognition ||
 
 const AppViewModel = AppMap.extend({
   init() {
-    this.recognition = new SpeechRecognition();
+    if (System.isPlatform('window')) {
+      this.recognition = new SpeechRecognition();
+    } else {
+      this.recognition = {
+        start: $.noop,
+        stop: $.noop
+      };
+    }
     this.recognition.onresult = this.result.bind(this);
     this.recognition.onend = this.onEnd.bind(this);
   },
@@ -44,6 +52,13 @@ const AppViewModel = AppMap.extend({
       value: 0,
       serialize: false
     },
+    currentQuestion: {
+      get() {
+        if (this.attr('questions')) {
+          return this.attr('questions')[this.attr('currentQuestionIndex')];
+        }
+      }
+    },
     answers: {
       Type: List,
       value: [],
@@ -57,6 +72,10 @@ const AppViewModel = AppMap.extend({
     listening: {
       type: 'boolean',
       value: false,
+      serialize: false
+    },
+    transcript: {
+      type: 'string',
       serialize: false
     }
   },
@@ -76,17 +95,34 @@ const AppViewModel = AppMap.extend({
 
   result(event) {
     if (event.results.length > 0) {
-      let transcripts = event.results[event.results.length-1];
-      if(transcripts.isFinal) {
-        console.log('heard', transcripts[0].transcript);
+      const transcripts = event.results[event.results.length-1];
+      const index = this.attr('currentQuestionIndex');
+      const currentQuestion = this.attr('questions')[index];
+      const options = currentQuestion.options;
+      const type = currentQuestion.type;
 
-        voiceConnection.getList({
+      if(transcripts.isFinal) {
+        this.attr('transcript', transcripts[0].transcript);
+
+        const request = {
           transcript: transcripts[0].transcript
-        }).then(resp => {
-          resp.forEach(action => {
-            $(window).trigger('voice', action);
+        };
+
+        if (options) {
+          Object.assign(request, { options });
+        }
+
+        if (type) {
+          Object.assign(request, { type });
+        }
+
+        voiceConnection
+          .getList(request)
+          .then(resp => {
+            resp.forEach(action => {
+              $(window).trigger('voice', action);
+            });
           });
-        });
 
         this.stop();
       }
