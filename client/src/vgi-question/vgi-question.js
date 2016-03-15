@@ -81,7 +81,12 @@ export default Component.extend({
   events: {
     '{window} voice': function(el, ev, { action, value }) {
       if (action === 'answer') {
-        this.viewModel.attr('answer', value);
+        const validAnswer = this.viewModel.attr('options').indexOf(value) >= 0;
+        if (validAnswer) {
+          this.viewModel.attr('answer', value);
+        } else {
+          this.viewModel.attr('unknownVoiceCommand', true);
+        }
       }
     }
   }
