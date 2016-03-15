@@ -28,6 +28,20 @@ const AppViewModel = AppMap.extend({
     }
     this.recognition.onresult = this.handleVoiceCommand.bind(this);
     this.recognition.onend = this.stopListening.bind(this);
+
+    this.bind('currentQuestion', (ev, newVal, oldVal) => {
+      if (newVal && oldVal && newVal.attr('question') !== oldVal.attr('question')) {
+        const answer = this.attr('initialResponse');
+        if (answer) {
+          const options = newVal.attr('options')
+            .map(o => {
+              return `{"type":"answer","value":"${o}"}`
+            })
+            .serialize();
+          this.checkAnswer({ answer, options, silent: true, tolerance: 0.1 });
+        }
+      }
+    });
   },
   define: {
     title: {
@@ -141,17 +155,22 @@ const AppViewModel = AppMap.extend({
     }
   },
 
-  checkAnswer({ answer }) {
+  checkAnswer({ answer, options=null, silent=false, tolerance=0.2 }) {
+    const request = { answer, tolerance };
+    if (options) {
+      Object.assign(request, { options });
+    }
+
     answerConnection
-      .findAll({
-        answer
-      })
+      .findAll(request)
       .then(resp => {
         resp.forEach(action => {
           $(window).trigger('voice', action);
         });
       }, err => {
-        this.attr('unknownVoiceCommand', true);
+        if (!silent) {
+          this.attr('unknownVoiceCommand', true);
+        }
       });
   },
 
