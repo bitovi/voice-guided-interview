@@ -1,11 +1,11 @@
 const debug = require('debug')('VGI:services/voice');
 
 const nextQuestionLabelJSON = JSON.stringify({
-  action: 'navigate',
+  type: 'navigate',
   value: 'next'
 });
 const prevQuestionLabelJSON = JSON.stringify({
-  action: 'navigate',
+  type: 'navigate',
   value: 'prev'
 });
 

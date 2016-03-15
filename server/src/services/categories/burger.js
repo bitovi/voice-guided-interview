@@ -27,7 +27,7 @@ module.exports = class BurgerService {
   train() {
     this.questions.forEach(question => {
       question.options.forEach(phrase => {
-        const label = `{"action":"answer","value":"${phrase}"}`;
+        const label = `{"type":"answer","value":"${phrase}"}`;
 
         debug('classifier.addDocument(' + phrase + ',' + label + ')');
         this.classifier.addDocument(phrase, label);

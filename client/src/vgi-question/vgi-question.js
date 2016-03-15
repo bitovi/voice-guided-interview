@@ -30,7 +30,7 @@ export const ViewModel = Map.extend({
         if (this.attr('unknownVoiceCommand')) {
           new ClassifyModel({
             phrase: this.attr('transcript'),
-            label: `{"action":"answer","value":"${val}"}`
+            label: `{"type":"answer","value":"${val}"}`
           })
           .save(() => {
             this.attr('unknownVoiceCommand', false);
@@ -79,8 +79,8 @@ export default Component.extend({
   },
 
   events: {
-    '{window} voice': function(el, ev, { action, value }) {
-      if (action === 'answer') {
+    '{window} voice': function(el, ev, { type, value }) {
+      if (type === 'answer') {
         const validAnswer = this.viewModel.attr('options').indexOf(value) >= 0;
         if (validAnswer) {
           this.viewModel.attr('answer', value);

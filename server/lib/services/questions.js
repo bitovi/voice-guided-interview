@@ -38,7 +38,7 @@ module.exports = function () {
 
       this.questions.forEach(function (question) {
         question.options.forEach(function (phrase) {
-          var label = '{"action":"answer","value":"' + phrase + '"}';
+          var label = '{"type":"answer","value":"' + phrase + '"}';
 
           debug('classifier.addDocument(' + phrase + ',' + label + ')');
           _this.classifier.addDocument(phrase, label);

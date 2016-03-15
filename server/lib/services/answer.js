@@ -11,11 +11,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var debug = require('debug')('VGI:services/voice');
 
 var nextQuestionLabelJSON = JSON.stringify({
-  action: 'navigate',
+  type: 'navigate',
   value: 'next'
 });
 var prevQuestionLabelJSON = JSON.stringify({
-  action: 'navigate',
+  type: 'navigate',
   value: 'prev'
 });
 
