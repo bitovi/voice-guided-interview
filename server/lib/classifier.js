@@ -10,18 +10,39 @@ module.exports = function () {
   function Classifier() {
     _classCallCheck(this, Classifier);
 
-    this.classifier = new NaturalBrain();
+    this.classifications = [];
+    this._classifier = new NaturalBrain();
   }
 
   _createClass(Classifier, [{
     key: 'getClassifier',
     value: function getClassifier() {
-      return this.classifier;
+      return this._classifier;
+    }
+  }, {
+    key: 'addDocument',
+    value: function addDocument(phrase, label) {
+      this.classifications.push({ phrase: phrase, label: label });
+      this._classifier.addDocument(phrase, label);
     }
   }, {
     key: 'train',
     value: function train() {
-      this.classifier.train();
+      this._classifier.train();
+    }
+  }, {
+    key: 'retrain',
+    value: function retrain() {
+      var _this = this;
+
+      this._classifier = new NaturalBrain();
+      this.classifications.forEach(function (_ref) {
+        var phrase = _ref.phrase;
+        var label = _ref.label;
+
+        _this._classifier.addDocument(phrase, label);
+      });
+      this._classifier.train();
     }
   }]);
 

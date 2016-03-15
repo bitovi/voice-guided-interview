@@ -61,7 +61,7 @@ module.exports = class QuestionsService {
       return Promise.resolve([ answer ]);
     } else {
       debug('Answer not found');
-      return Promise.reject('Answer not found');
+      return Promise.reject([]);
     }
   }
 };

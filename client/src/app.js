@@ -26,8 +26,8 @@ const AppViewModel = AppMap.extend({
         stop: $.noop
       };
     }
-    this.recognition.onresult = this.result.bind(this);
-    this.recognition.onend = this.onEnd.bind(this);
+    this.recognition.onresult = this.handleVoiceCommand.bind(this);
+    this.recognition.onend = this.stopListening.bind(this);
 
     this.bind('category', (vm, category) => {
       if (category) {
@@ -64,7 +64,11 @@ const AppViewModel = AppMap.extend({
     currentQuestionIndex: {
       type: 'number',
       value: 0,
-      serialize: false
+      serialize: false,
+      set(val) {
+        this.attr('unknownVoiceCommand', false);
+        return val;
+      }
     },
     currentQuestion: {
       get() {
@@ -102,6 +106,11 @@ const AppViewModel = AppMap.extend({
         this.attr('questions.length') > 1;
       },
       serialze: false
+    },
+    unknownVoiceCommand: {
+      type: 'boolean',
+      value: false,
+      serialize: false
     }
   },
 
@@ -113,12 +122,12 @@ const AppViewModel = AppMap.extend({
     if(this.attr('listening')) {
       this.stop();
     } else {
+      this.attr('unknownVoiceCommand', false);
       this.start();
     }
   },
 
-
-  result(event) {
+  handleVoiceCommand(event) {
     if (event.results.length > 0) {
       const transcripts = event.results[event.results.length-1];
 
@@ -126,11 +135,13 @@ const AppViewModel = AppMap.extend({
         this.attr('transcript', transcripts[0].transcript);
 
         answerConnection
-          .getList({ transcript: transcripts[0].transcript })
+          .findAll({ transcript: transcripts[0].transcript })
           .then(resp => {
             resp.forEach(action => {
               $(window).trigger('voice', action);
             });
+          }, err => {
+            this.attr('unknownVoiceCommand', true);
           });
 
         this.stop();
@@ -143,7 +154,7 @@ const AppViewModel = AppMap.extend({
     this.recognition.start();
   },
 
-  onEnd() {
+  stopListening() {
     this.attr('listening', false);
   },
 

@@ -45,6 +45,8 @@
                 {{else}}
                   {{#with currentQuestion}}
                     <vgi-question
+                      {(transcript)}="transcript"
+                      {(unknown-voice-command)}="unknownVoiceCommand"
                       {(answers)}="answers"
                       {question}="question"
                       {variable}="variable"
@@ -55,6 +57,16 @@
                 {{/with}}
                 {{/if}}
               </can-import>
+            </div>
+          </div>
+          {{/if}}
+
+          {{#if unknownVoiceCommand}}
+          <div class="row">
+            <div class="col-xs-12 col-sm-8 col-md-8">
+              <p>
+                Sorry, I didn't understand that. Please select the option you meant so I can learn for next time.
+              </p>
             </div>
           </div>
           {{/if}}

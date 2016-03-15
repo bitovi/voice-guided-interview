@@ -1,8 +1,10 @@
 import Component from 'can/component/';
 import Map from 'can/map/';
+import template from './vgi-question.stache!';
+import ClassifyModel from 'voice-guided-interview/models/classify';
+
 import 'can/map/define/';
 import './vgi-question.less!';
-import template from './vgi-question.stache!';
 
 export const ViewModel = Map.extend({
   define: {
@@ -24,8 +26,27 @@ export const ViewModel = Map.extend({
       set(val) {
         const index = this.attr('questionNumber');
         this.attr('answers').attr(index, val);
+
+        if (this.attr('unknownVoiceCommand')) {
+          new ClassifyModel({
+            phrase: this.attr('transcript'),
+            label: `{"action":"answer","value":"${val}"}`
+          })
+          .save(() => {
+            this.attr('unknownVoiceCommand', false);
+          });
+        }
+
         return val;
       }
+    },
+
+    // passed from app view model
+    unknownVoiceCommand: {
+      type: 'boolean'
+    },
+    transcript: {
+      type: 'string'
     }
   },
 
