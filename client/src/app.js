@@ -132,10 +132,10 @@ const AppViewModel = AppMap.extend({
       const transcripts = event.results[event.results.length-1];
 
       if(transcripts.isFinal) {
-        this.attr('transcript', transcripts[0].transcript);
+        this.attr('transcript', transcripts[0].transcript.toLowerCase());
 
         answerConnection
-          .findAll({ transcript: transcripts[0].transcript })
+          .findAll({ transcript: transcripts[0].transcript.toLowerCase() })
           .then(resp => {
             resp.forEach(action => {
               $(window).trigger('voice', action);

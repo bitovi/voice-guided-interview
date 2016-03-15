@@ -22,6 +22,7 @@ module.exports = function () {
   }, {
     key: 'addDocument',
     value: function addDocument(phrase, label) {
+      phrase = phrase.toLowerCase();
       this.classifications.push({ phrase: phrase, label: label });
       this._classifier.addDocument(phrase, label);
     }

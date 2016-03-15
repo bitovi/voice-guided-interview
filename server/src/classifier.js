@@ -11,6 +11,7 @@ module.exports = class Classifier {
   }
 
   addDocument(phrase, label) {
+    phrase = phrase.toLowerCase();
     this.classifications.push({ phrase, label });
     this._classifier.addDocument(phrase, label);
   }
