@@ -49,7 +49,10 @@ module.exports = function () {
     key: 'find',
     value: function find(params) {
       var results = [];
-      var answer = params.query.answer;
+      var _params$query = params.query;
+      var answer = _params$query.answer;
+      var _params$query$toleran = _params$query.tolerance;
+      var tolerance = _params$query$toleran === undefined ? 0.3 : _params$query$toleran;
 
 
       debug(answer);
@@ -60,7 +63,7 @@ module.exports = function () {
         debug(classifications[i]);
       });
 
-      if (classifications && classifications[0] && classifications[0].value > 0.3) {
+      if (classifications && classifications[0] && classifications[0].value >= tolerance) {
         var _answer = JSON.parse(classifications[0].label);
         debug('Found:', _answer);
         return Promise.resolve([_answer]);

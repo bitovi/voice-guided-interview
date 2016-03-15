@@ -42,7 +42,7 @@ module.exports = class QuestionsService {
 
   find(params) {
     let results = [];
-    let { answer } = params.query;
+    let { answer, tolerance=0.3 } = params.query;
 
     debug(answer);
 
@@ -54,7 +54,7 @@ module.exports = class QuestionsService {
       debug(classifications[i]);
     });
 
-    if (classifications && classifications[0] && classifications[0].value > 0.3) {
+    if (classifications && classifications[0] && classifications[0].value >= tolerance) {
       const answer = JSON.parse( classifications[0].label );
       debug('Found:', answer);
       return Promise.resolve([ answer ]);
