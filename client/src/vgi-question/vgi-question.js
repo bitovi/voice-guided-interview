@@ -68,16 +68,6 @@ export default Component.extend({
   tag: 'vgi-question',
   viewModel: ViewModel,
   template,
-  helpers: {
-    getAnswer(val) {
-      return 'answer.' + val;
-    },
-
-    toLowerCase(val) {
-      return val.toLowerCase();
-    }
-  },
-
   events: {
     '{window} voice': function(el, ev, { type, value }) {
       if (type === 'answer') {

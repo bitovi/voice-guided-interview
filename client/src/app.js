@@ -112,6 +112,20 @@ const AppViewModel = AppMap.extend({
     },
     transcript: {
       type: 'string',
+      set(val) {
+        if (this.attr('currentQuestion.variable') === 'category') {
+          this.attr('initialResponse', val);
+        }
+
+        this.checkAnswer(val);
+
+        return val;
+      },
+      serialize: false
+    },
+    initialResponse: {
+      type: 'string',
+      value: '',
       serialize: false
     },
     showPagination: {
@@ -125,6 +139,20 @@ const AppViewModel = AppMap.extend({
       value: false,
       serialize: false
     }
+  },
+
+  checkAnswer(answer, silent=false) {
+    answerConnection
+      .findAll({ transcript: answer })
+      .then(resp => {
+        resp.forEach(action => {
+          $(window).trigger('voice', action);
+        });
+      }, err => {
+        if (!silent) {
+          this.attr('unknownVoiceCommand', true);
+        }
+      });
   },
 
   toggleAnswerDebug() {
@@ -146,17 +174,6 @@ const AppViewModel = AppMap.extend({
 
       if(transcripts.isFinal) {
         this.attr('transcript', transcripts[0].transcript.toLowerCase());
-
-        answerConnection
-          .findAll({ transcript: transcripts[0].transcript.toLowerCase() })
-          .then(resp => {
-            resp.forEach(action => {
-              $(window).trigger('voice', action);
-            });
-          }, err => {
-            this.attr('unknownVoiceCommand', true);
-          });
-
         this.stop();
       }
     }
