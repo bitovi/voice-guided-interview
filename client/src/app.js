@@ -28,35 +28,48 @@ const AppViewModel = AppMap.extend({
     }
     this.recognition.onresult = this.handleVoiceCommand.bind(this);
     this.recognition.onend = this.stopListening.bind(this);
-
-    this.bind('category', (vm, category) => {
-      if (category) {
-        category = category.toLowerCase();
-        questionsConnection.getList({ category })
-          .then(newQs => {
-            newQs.forEach(q => {
-              this.attr('questions').push(q);
-            });
-          });
-      }
-    });
   },
   define: {
     title: {
       value: 'voice-guided-interview',
       serialize: false
     },
-    questionsPromise: {
+    questions: {
       get() {
-        return questionsConnection.getList({});
+        if (this.attr('preCategoryQuestions.length')) {
+          return this.attr('preCategoryQuestions').concat(this.attr('postCategoryQuestions'));
+        } else {
+          return [];
+        }
       },
+      Type: List,
       serialize: false
     },
-    questions: {
+    preCategoryQuestions: {
       get(last, setVal) {
-        this.attr('questionsPromise').then(qs => {
-          setVal(new List(qs));
-        });
+        questionsConnection
+          .getList({})
+          .then(qs => {
+            setVal(new List(qs));
+          });
+      },
+      Type: List,
+      serialize: false
+    },
+    postCategoryQuestions: {
+      get(last, setVal) {
+        const category = this.attr('category');
+        if (category) {
+          questionsConnection
+            .getList({
+              category: category.toLowerCase()
+            })
+            .then(qs => {
+              setVal(new List(qs));
+            });
+        } else {
+          return [];
+        }
       },
       Type: List,
       serialize: false
