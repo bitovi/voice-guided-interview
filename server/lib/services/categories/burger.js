@@ -34,7 +34,7 @@ module.exports = function () {
         question.options.forEach(function (phrase) {
           var label = '{"type":"answer","value":"' + phrase + '"}';
 
-          debug('classifier.addDocument(' + phrase + ',' + label + ')');
+          debug('classifier.addDocument("' + phrase + '", ' + label + ')');
           _this.classifier.addDocument(phrase, label);
         });
       });

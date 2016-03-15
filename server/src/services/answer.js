@@ -34,7 +34,7 @@ module.exports = class QuestionsService {
 
     for (let label in navigateClassifications) {
       navigateClassifications[label].forEach(phrase => {
-        debug('classifier.addDocument(' + phrase + ',' + label + ')');
+        debug('classifier.addDocument("' + phrase + '", ' + label + ')');
         this.classifier.addDocument(phrase, label);
       });
     }
@@ -62,12 +62,12 @@ module.exports = class QuestionsService {
       classifications = classifications.filter(c => {
         return options.indexOf(c.label) >= 0;
       });
-    }
 
-    debug('filtered answers');
-    classifications.forEach((c, i) => {
-      debug(classifications[i]);
-    });
+      debug('filtered answers');
+      classifications.forEach((c, i) => {
+        debug(classifications[i]);
+      });
+    }
 
     if (classifications && classifications[0] && classifications[0].value >= tolerance) {
       const answer = JSON.parse( classifications[0].label );

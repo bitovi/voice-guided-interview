@@ -8,7 +8,7 @@ module.exports = class CategoryService {
   create(data, params) {
     const { phrase, label } = data;
 
-    debug('classifier.addDocument(' + phrase + ',' + label + ')');
+    debug('classifier.addDocument("' + phrase + '", ' + label + ')');
     this.classifier.addDocument(phrase, label);
     this.classifier.retrain();
 

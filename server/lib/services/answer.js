@@ -35,7 +35,7 @@ module.exports = function () {
 
     var _loop = function _loop(label) {
       navigateClassifications[label].forEach(function (phrase) {
-        debug('classifier.addDocument(' + phrase + ',' + label + ')');
+        debug('classifier.addDocument("' + phrase + '", ' + label + ')');
         _this.classifier.addDocument(phrase, label);
       });
     };
@@ -72,12 +72,12 @@ module.exports = function () {
         classifications = classifications.filter(function (c) {
           return options.indexOf(c.label) >= 0;
         });
-      }
 
-      debug('filtered answers');
-      classifications.forEach(function (c, i) {
-        debug(classifications[i]);
-      });
+        debug('filtered answers');
+        classifications.forEach(function (c, i) {
+          debug(classifications[i]);
+        });
+      }
 
       if (classifications && classifications[0] && classifications[0].value >= tolerance) {
         var _answer = JSON.parse(classifications[0].label);

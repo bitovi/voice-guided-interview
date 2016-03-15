@@ -9,5 +9,4 @@
       <option {$value}=".">{{.}}</option>
     {{/each}}
   </select>
-  <input type="hidden" {($value)}="answer" />
 </div>

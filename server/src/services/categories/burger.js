@@ -29,7 +29,7 @@ module.exports = class BurgerService {
       question.options.forEach(phrase => {
         const label = `{"type":"answer","value":"${phrase}"}`;
 
-        debug('classifier.addDocument(' + phrase + ',' + label + ')');
+        debug('classifier.addDocument("' + phrase + '", ' + label + ')');
         this.classifier.addDocument(phrase, label);
       });
     });

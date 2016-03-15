@@ -6,7 +6,6 @@ import route from "can/route/";
 import questionsConnection from 'voice-guided-interview/models/questions';
 import answerConnection from 'voice-guided-interview/models/answer';
 
-
 import 'can/map/define/';
 import 'can/route/pushstate/';
 
@@ -116,7 +115,7 @@ const AppViewModel = AppMap.extend({
     },
     showAnswerDebug: {
       type: 'boolean',
-      value: true,
+      value: false,
       serialize: false
     },
     listening: {

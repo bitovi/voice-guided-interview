@@ -20,7 +20,7 @@ module.exports = function () {
       var label = data.label;
 
 
-      debug('classifier.addDocument(' + phrase + ',' + label + ')');
+      debug('classifier.addDocument("' + phrase + '", ' + label + ')');
       this.classifier.addDocument(phrase, label);
       this.classifier.retrain();
 
