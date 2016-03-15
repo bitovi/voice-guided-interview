@@ -53,12 +53,28 @@ module.exports = function () {
       var answer = _params$query.answer;
       var _params$query$toleran = _params$query.tolerance;
       var tolerance = _params$query$toleran === undefined ? 0.3 : _params$query$toleran;
+      var options = _params$query.options;
 
 
       debug(answer);
 
+      // get all classifications
       var classifications = this.classifier.getClassifications(answer).sort(byValue);
 
+      // debug message
+      debug('all answers');
+      classifications.forEach(function (c, i) {
+        debug(classifications[i]);
+      });
+
+      // filter to only classifications in options
+      if (options && options.length) {
+        classifications = classifications.filter(function (c) {
+          return options.indexOf(c.label) >= 0;
+        });
+      }
+
+      debug('filtered answers');
       classifications.forEach(function (c, i) {
         debug(classifications[i]);
       });

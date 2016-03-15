@@ -42,14 +42,29 @@ module.exports = class QuestionsService {
 
   find(params) {
     let results = [];
-    let { answer, tolerance=0.3 } = params.query;
+    let { answer, tolerance=0.3, options } = params.query;
 
     debug(answer);
 
+    // get all classifications
     let classifications = this.classifier
       .getClassifications(answer)
       .sort(byValue);
 
+    // debug message
+    debug('all answers');
+    classifications.forEach((c, i) => {
+      debug(classifications[i]);
+    });
+
+    // filter to only classifications in options
+    if (options && options.length) {
+      classifications = classifications.filter(c => {
+        return options.indexOf(c.label) >= 0;
+      });
+    }
+
+    debug('filtered answers');
     classifications.forEach((c, i) => {
       debug(classifications[i]);
     });
