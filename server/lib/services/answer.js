@@ -49,25 +49,21 @@ module.exports = function () {
     key: 'find',
     value: function find(params) {
       var results = [];
-      var _params$query = params.query;
-      var transcript = _params$query.transcript;
-      var options = _params$query.options;
-      var type = _params$query.type;
+      var answer = params.query.answer;
 
-      options = options ? options.split(',') : options;
 
-      debug(transcript);
+      debug(answer);
 
-      var classifications = this.classifier.getClassifications(transcript).sort(byValue);
+      var classifications = this.classifier.getClassifications(answer).sort(byValue);
 
       classifications.forEach(function (c, i) {
         debug(classifications[i]);
       });
 
       if (classifications && classifications[0] && classifications[0].value > 0.3) {
-        var answer = JSON.parse(classifications[0].label);
-        debug('Found:', answer);
-        return Promise.resolve([answer]);
+        var _answer = JSON.parse(classifications[0].label);
+        debug('Found:', _answer);
+        return Promise.resolve([_answer]);
       } else {
         debug('Answer not found');
         return Promise.reject([]);

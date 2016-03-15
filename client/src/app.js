@@ -113,11 +113,11 @@ const AppViewModel = AppMap.extend({
     transcript: {
       type: 'string',
       set(val) {
-        if (this.attr('currentQuestion.variable') === 'category') {
+        if (!this.attr('initialResponse')) {
           this.attr('initialResponse', val);
         }
 
-        this.checkAnswer(val);
+        this.checkAnswer({ answer: val });
 
         return val;
       },
@@ -141,17 +141,17 @@ const AppViewModel = AppMap.extend({
     }
   },
 
-  checkAnswer(answer, silent=false) {
+  checkAnswer({ answer }) {
     answerConnection
-      .findAll({ transcript: answer })
+      .findAll({
+        answer
+      })
       .then(resp => {
         resp.forEach(action => {
           $(window).trigger('voice', action);
         });
       }, err => {
-        if (!silent) {
-          this.attr('unknownVoiceCommand', true);
-        }
+        this.attr('unknownVoiceCommand', true);
       });
   },
 

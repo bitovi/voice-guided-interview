@@ -42,13 +42,12 @@ module.exports = class QuestionsService {
 
   find(params) {
     let results = [];
-    let { transcript, options, type } = params.query;
-    options = options ? options.split(',') : options;
+    let { answer } = params.query;
 
-    debug(transcript);
+    debug(answer);
 
     let classifications = this.classifier
-      .getClassifications(transcript)
+      .getClassifications(answer)
       .sort(byValue);
 
     classifications.forEach((c, i) => {
