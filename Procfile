@@ -1,1 +1,1 @@
-web: node_modules/.bin/can-serve --proxy http://voiceguidedinterview-api.herokuapp.com/api
+web: node_modules/.bin/can-serve --proxy https://voiceguidedinterview-api.herokuapp.com/
