@@ -37,7 +37,7 @@
     ],
     "envs": {
       "server-production": {
-        "baseURL": "https://voiceguidedinterview.firebaseapp.com/"
+        "baseURL": "https://voice-guided-interview.firebaseapp.com/"
       }
     }
   },
@@ -70,7 +70,7 @@
         "production": {
           "type": "firebase",
           "config": {
-            "firebase": "voiceguidedinterview",
+            "firebase": "voice-guided-interview",
             "public": "./dist",
             "headers": [{
               "source": "/**",
