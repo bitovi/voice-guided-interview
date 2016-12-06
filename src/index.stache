@@ -1,113 +1,13 @@
 <html>
   <head>
     <title>{{title}}</title>
-    {{asset "css"}}
-    {{asset "html5shiv"}}
   </head>
   <body>
     <can-import from="voice-guided-interview/styles.less" />
-    <can-import from="bootstrap/less/bootstrap.less" />
     <can-import from="voice-guided-interview/app" export-as="viewModel" />
+    <can-import from="voice-guided-interview/questions/questions" />
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-          <nav class="navbar navbar-default">
-            <div class="container-fluid">
-              <div class="navbar-header">
-                <h1>Voice Guided Interview</h1>
-              </div>
-              <ul class="nav navbar-nav navbar-right nav-pills">
-                <li><a href="javascript:void(0)" ($click)="toggleListening()">
-                  <span class="glyphicon glyphicon-headphones" aria-hidden="true"></span>
-                </a></li>
-                <li><a href="javascript:void(0)" ($click)="toggleAnswerDebug()">
-                  <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                </a></li>
-              </ul>
-              <div class="transcript">
-                {{#if transcript}}
-                  <p>You said: "{{transcript}}"</p>
-                {{/if}}
-              </div>
-            </div>
-          </nav>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12 col-sm-8 col-md-8">
-          {{#if currentQuestion}}
-          <div class="row">
-            <div class="col-xs-12 col-sm-8 col-md-8">
-              <can-import from="voice-guided-interview/vgi-question/">
-                {{#if isPending}}
-                  Loading Question...
-                {{else}}
-                  {{#with currentQuestion}}
-                    <vgi-question
-                      {(transcript)}="transcript"
-                      {(unknown-voice-command)}="unknownVoiceCommand"
-                      {(answers)}="answers"
-                      {question}="question"
-                      {variable}="variable"
-                      {options}="options"
-                      {type}="type"
-                      {(question-number)}="../currentQuestionIndex">
-                    </vgi-question>
-                {{/with}}
-                {{/if}}
-              </can-import>
-            </div>
-          </div>
-          {{/if}}
-
-          {{#if unknownVoiceCommand}}
-          <div class="row">
-            <div class="col-xs-12 col-sm-8 col-md-8">
-              <p>
-                Sorry, I didn't understand that. Please select the option you meant so I can learn for next time.
-              </p>
-            </div>
-          </div>
-          {{/if}}
-
-          {{#if questions}}
-          <div class="row">
-            <div class="col-xs-12 col-sm-8 col-md-8">
-              <can-import from="voice-guided-interview/vgi-pagination/">
-                {{#if isPending}}
-                  Loading Pagination...
-                {{else}}
-                  <vgi-pagination
-                    {(question-number)}="currentQuestionIndex"
-                    {questions}="questions">
-                  </vgi-pagination>
-                {{/if}}
-              </can-import>
-            </div>
-          </div>
-          {{/if}}
-        </div>
-        <div class="col-xs-12 col-sm-4 col-md-4">
-          <can-import from="voice-guided-interview/vgi-answer-debug/">
-            {{#if isPending}}
-              Loading Answer Debug...
-            {{else}}
-              {{#if showAnswerDebug}}
-                {{#if questions}}
-                  <vgi-answer-debug
-                    {questions}="questions"
-                    {answers}="answers">
-                  </vgi-answer-debug>
-                {{/if}}
-              {{/if}}
-            {{/if}}
-          </can-import>
-        </div>
-      </div>
-    </div>
-
-    {{asset "inline-cache"}}
+    <vgi-questions></vgi-questions>
 
     {{#switch env.NODE_ENV}}
       {{#case "production"}}
