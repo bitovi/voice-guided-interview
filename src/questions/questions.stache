@@ -1,7 +1,5 @@
 {{#if questionsPromise.isResolved}}
-  {{#each questions}}
-    {{prompt}}
-  {{/each}}
+  {{currentQuestion.prompt}}
 {{else}}
   Loading Questions...
 {{/if}}

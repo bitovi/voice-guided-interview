@@ -7,17 +7,23 @@ import 'can/route/pushstate/';
 const AppViewModel = Map.extend({
   define: {
     title: {
+      type: 'string',
       value: 'Voice Guided Interview',
       serialize: false
     },
     questionNumber: {
       type: 'number',
       value: 0
+    },
+    page: {
+      type: 'string',
+      value: 'questions'
     }
   }
 });
 
-route('/');
-route('/:questionNumber');
+route('/:page');
+route('/:page/:questionNumber', { page: 'questions' });
+route.ready();
 
 export default AppViewModel;

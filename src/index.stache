@@ -7,7 +7,9 @@
     <can-import from="voice-guided-interview/app" export-as="viewModel" />
     <can-import from="voice-guided-interview/questions/questions" />
 
-    <vgi-questions></vgi-questions>
+    <vgi-questions
+      {(question-number)}="questionNumber"
+    ></vgi-questions>
 
     {{#switch env.NODE_ENV}}
       {{#case "production"}}
