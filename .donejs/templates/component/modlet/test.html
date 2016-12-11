@@ -1,3 +1,11 @@
 <title><%= module %></title>
+<script>
+  reload = { once: function() {} };
+  steal = {
+    instantiated: {
+      'live-reload': { 'default': window.reload, __useDefault: true }
+    }
+  };
+</script>
 <script src="<%= root %>node_modules/steal/steal.js" main="<%= module %>/<%= name %>_test" data-mocha="bdd"></script>
 <div id="qunit-fixture"></div>

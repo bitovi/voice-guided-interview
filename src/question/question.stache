@@ -1,0 +1,17 @@
+<div>{{prompt}}</div>
+<input type="text" {($value)}="providedAnswer"></input>
+
+{{#if providedAnswer}}
+  <div>
+    {{#if answer}}
+      {{answer}}
+    {{else}}
+      Sorry, I didn't understand that. Did you mean one of these?
+      <ul>
+      {{#each options}}
+        <li ($click)="createAnswer(providedAnswer, .)">{{.}}</li>
+      {{/each}}
+      </ul>
+    {{/if}}
+  </div>
+{{/if}}

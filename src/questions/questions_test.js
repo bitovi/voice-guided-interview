@@ -40,7 +40,7 @@ describe('voice-guided-interview/questions', () => {
     });
   });
 
-  describe('category=null', () => {
+  describe('answers[0]=null', () => {
     beforeEach((done) => {
       vm.bind('questions', () => done());
     });
@@ -66,7 +66,7 @@ describe('voice-guided-interview/questions', () => {
     });
   });
 
-  describe('category=Pizza', () => {
+  describe('answers[0]=Pizza', () => {
     beforeEach((done) => {
       vm.bind('questions', (ev, questions) => {
         if (questions.length === 4) {

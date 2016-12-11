@@ -4,7 +4,6 @@ import { ViewModel } from './<%= name %>';
 
 let assert = chai.assert;
 
-// ViewModel unit tests
 describe('<%= module %>', () => {
   it('Has message', () => {
     var vm = new ViewModel();

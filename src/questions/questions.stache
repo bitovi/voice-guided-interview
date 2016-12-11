@@ -1,5 +1,10 @@
+<can-import from="voice-guided-interview/question/question" />
 {{#if questionsPromise.isResolved}}
-  {{currentQuestion.prompt}}
+  <vgi-question
+    {prompt}="currentQuestion.prompt"
+    {options}="currentQuestion.options"
+    {(answer)}="currentAnswer"
+  ></vgi-question>
 {{else}}
   Loading Questions...
 {{/if}}
