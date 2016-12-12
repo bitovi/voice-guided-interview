@@ -59,11 +59,6 @@ describe('voice-guided-interview/questions', () => {
       assert.deepEqual(vm.attr('currentQuestion'), vm.attr('questions.0'),
         'Should show question 0');
     });
-
-    it('currentAnswer', () => {
-      assert.deepEqual(vm.attr('currentAnswer'), vm.attr('answers.0'),
-        'Should show answers 0');
-    });
   });
 
   describe('answers[0]=Pizza', () => {
@@ -101,16 +96,6 @@ describe('voice-guided-interview/questions', () => {
 
       assert.deepEqual(vm.attr('currentQuestion'), vm.attr('questions.1'),
         'Should show question 1');
-    });
-
-    it('currentAnswer', () => {
-      assert.deepEqual(vm.attr('currentAnswer'), vm.attr('answers.0'),
-        'Should show answers 0');
-
-      vm.attr('questionNumber', 1);
-
-      assert.deepEqual(vm.attr('currentAnswer'), vm.attr('answers.1'),
-        'Should show answers 1');
     });
   });
 });

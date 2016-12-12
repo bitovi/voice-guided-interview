@@ -9,6 +9,14 @@ import './question.less!';
 
 export const ViewModel = Map.extend({
   define: {
+    questionNumber: {
+      type: 'number',
+      set(val) {
+        this.attr('providedAnswer', '');
+        this.attr('answer', '');
+        return val;
+      }
+    },
     providedAnswer: {
       type: 'string',
       value: ''
@@ -32,11 +40,10 @@ export const ViewModel = Map.extend({
         var bestAnswer = new Map({ answer: undefined, certainty: 0.3 });
 
         if (lastSetVal) {
-          return lastSetVal.attr('answer');
+          return lastSetVal;
         }
 
-        this
-          .attr('potentialAnswers')
+        this.attr('potentialAnswers')
           .forEach((answer) => {
             if (answer.attr('certainty') >= bestAnswer.attr('certainty')) {
               bestAnswer = answer;
@@ -54,7 +61,7 @@ export const ViewModel = Map.extend({
     return answerConnection
       .save( ans )
       .then((ans) => {
-        vm.attr('answer', ans);
+        vm.attr('answer', ans.attr('answer'));
         return ans;
       });
   }

@@ -38,6 +38,9 @@ export const ViewModel = Map.extend({
         return this.attr('answers.0');
       }
     },
+    questionNumber: {
+      type: 'number'
+    },
     currentQuestion: {
       get() {
         const num = this.attr('questionNumber');
@@ -46,10 +49,25 @@ export const ViewModel = Map.extend({
       }
     },
     currentAnswer: {
-      get() {
+      type: 'string',
+      value: '',
+      set(val) {
         const num = this.attr('questionNumber');
-        const answers = this.attr('answers');
-        return answers && answers.attr(num);
+        if (val && typeof num === 'number') {
+          this.attr('answers').attr(num, val);
+
+          // move to the next question
+          setTimeout(() => {
+            const num = this.attr('questionNumber');
+            this.attr('questionNumber', num + 1);
+          }, 50);
+        }
+        return val;
+      }
+    },
+    allQuestionsAnswered: {
+      get() {
+        return this.attr('questionNumber') >= this.attr('questions.length');
       }
     }
   }
@@ -58,5 +76,10 @@ export const ViewModel = Map.extend({
 export default Component.extend({
   tag: 'vgi-questions',
   viewModel: ViewModel,
-  template
+  template,
+  helpers: {
+    displayAnswers(answers) {
+      return `${answers[0]} with ${answers.slice(1).join(', ')}`;
+    }
+  }
 });
