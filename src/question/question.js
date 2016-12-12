@@ -37,7 +37,8 @@ export const ViewModel = Map.extend({
     },
     answer: {
       get(lastSetVal) {
-        var bestAnswer = new Map({ answer: undefined, certainty: 0.3 });
+        let bestAnswer = new Map({ answer: undefined, certainty: 0.3 });
+        const options = this.attr('options');
 
         if (lastSetVal) {
           return lastSetVal;
@@ -45,7 +46,7 @@ export const ViewModel = Map.extend({
 
         this.attr('potentialAnswers')
           .forEach((answer) => {
-            if (answer.attr('certainty') >= bestAnswer.attr('certainty')) {
+            if (answer.attr('certainty') >= bestAnswer.attr('certainty') && options.indexOf(answer.attr('answer')) >= 0) {
               bestAnswer = answer;
             }
           });

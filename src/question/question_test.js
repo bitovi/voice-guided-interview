@@ -44,6 +44,10 @@ describe('voice-guided-interview/question', () => {
   });
 
   describe('answer', () => {
+    beforeEach(() => {
+      vm.attr('options', [ 'Pizza', 'Sandwich', 'Burger' ]);
+    });
+
     it('no potential answers', (done) => {
       answers = new List([]);
       vm.bind('potentialAnswers', () => {
@@ -55,10 +59,10 @@ describe('voice-guided-interview/question', () => {
 
     it('no potential answers above certainty threshhold', (done) => {
       answers = new List([{
-        answer: 'Hello',
+        answer: 'Pizza',
         certainty: 0.1
       }, {
-        answer: 'World',
+        answer: 'Sandwich',
         certainty: 0.05
       }]);
       vm.bind('potentialAnswers', () => {
@@ -70,14 +74,14 @@ describe('voice-guided-interview/question', () => {
 
     it('one potential answer above certainty threshhold', (done) => {
       answers = new List([{
-        answer: 'Hello',
+        answer: 'Pizza',
         certainty: 0.3
       }, {
-        answer: 'World',
+        answer: 'Sandwich',
         certainty: 0.05
       }]);
       vm.bind('potentialAnswers', () => {
-        assert.equal(vm.attr('answer'), 'Hello');
+        assert.equal(vm.attr('answer'), 'Pizza');
         done();
       });
       vm.attr('providedAnswer', 'Pizza');
@@ -85,14 +89,14 @@ describe('voice-guided-interview/question', () => {
 
     it('more than one potential answer above certainty threshhold', (done) => {
       answers = new List([{
-        answer: 'Hello',
+        answer: 'Pizza',
         certainty: 0.3
       }, {
-        answer: 'World',
+        answer: 'Sandwich',
         certainty: 0.4
       }]);
       vm.bind('potentialAnswers', () => {
-        assert.equal(vm.attr('answer'), 'World');
+        assert.equal(vm.attr('answer'), 'Sandwich');
         done();
       });
       vm.attr('providedAnswer', 'Pizza');
