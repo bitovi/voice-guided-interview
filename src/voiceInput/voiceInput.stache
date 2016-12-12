@@ -1,0 +1,4 @@
+<input
+type="submit"
+($click)="toggleListening"
+value="{{#if listening}}Stop Listening{{else}}Listen{{/if}}" >

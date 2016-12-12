@@ -1,0 +1,15 @@
+<can-import from="voice-guided-interview/question/question" />
+{{#if questionsPromise.isResolved}}
+  {{#unless allQuestionsAnswered}}
+    <vgi-question
+      {prompt}="currentQuestion.prompt"
+      {options}="currentQuestion.options"
+      {(answer)}="currentAnswer"
+      {(question-number)}="questionNumber"
+    ></vgi-question>
+  {{else}}
+    Ok, you're going to have a {{displayAnswers(answers)}}
+  {{/unless}}
+{{else}}
+  Loading Questions...
+{{/if}}

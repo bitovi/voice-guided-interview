@@ -10,8 +10,8 @@
   },
   "scripts": {
     "test": "testee src/test.html --browsers firefox --reporter Spec",
-    "start": "can-serve --port 8080 --proxy http://localhost:3030",
-    "develop": "can-serve --develop --port 8080 --proxy http://localhost:3030",
+    "start": "done-serve --port 8080 --proxy http://localhost:3030",
+    "develop": "done-serve --develop --port 8080 --proxy http://localhost:3030",
     "document": "documentjs",
     "build": "node build"
   },
@@ -39,29 +39,35 @@
       "server-production": {
         "baseURL": "https://voice-guided-interview.firebaseapp.com/"
       }
-    }
+    },
+    "map": {
+      "chai": "chai/chai"
+    },
+    "transpiler": "babel",
+    "npmAlgorithm": "flat"
   },
   "dependencies": {
-    "bootstrap": "^3.3.6",
-    "can": "^2.3.17",
-    "can-connect": "^0.3.4",
-    "can-ssr": "^0.11.7",
-    "done-autorender": "^0.6.3",
+    "can": "^2.3.16",
+    "can-connect": "^0.5.0",
+    "can-zone": "^0.5.0",
+    "done-serve": "^0.2.0",
+    "done-autorender": "^0.8.0",
     "done-component": "^0.4.0",
-    "done-css": "^1.1.16",
-    "generator-donejs": "^0.7.1",
-    "jquery": "^2.2.1",
-    "steal": "^0.14.1"
+    "done-css": "~2.0.2",
+    "generator-donejs": "^0.9.0",
+    "jquery": "~2.2.1",
+    "steal": "^0.16.0"
   },
   "devDependencies": {
     "can-fixture": "^0.1.2",
+    "chai": "^3.5.0",
+    "donejs-cli": "^0.9.4",
     "documentjs": "^0.4.2",
-    "donejs-cli": "^0.7.0",
-    "donejs-deploy": "^0.4.1",
-    "funcunit": "^3.0.0",
-    "steal-qunit": "^0.1.1",
-    "steal-tools": "^0.14.0",
-    "testee": "^0.2.5"
+    "donejs-deploy": "^0.4.0",
+    "funcunit": "~3.0.0",
+    "steal-mocha": "^0.0.3",
+    "steal-tools": "^0.16.0",
+    "testee": "^0.2.4"
   },
   "donejs": {
     "deploy": {

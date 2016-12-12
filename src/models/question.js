@@ -30,21 +30,21 @@ var behaviors = [
   'constructor-callbacks-once'
 ];
 
-export const Answer = Map.extend({
+export const Question = Map.extend({
   define: {}
 });
 
-Answer.List = List.extend({
-  Map: Answer
+Question.List = List.extend({
+  Map: Question
 }, {});
 
-export const answerConnection = connect(behaviors, {
+export const questionConnection = connect(behaviors, {
   ajax: $.ajax,
-  url: '/api/answers',
+  url: '/api/questions',
   idProp: 'id',
-  Map: Answer,
-  List: Answer.List,
-  name: 'answer'
+  Map: Question,
+  List: Question.List,
+  name: 'question'
 });
 
-export default Answer;
+export default Question;

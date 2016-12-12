@@ -1,14 +1,15 @@
 import F from 'funcunit';
-import QUnit from 'steal-qunit';
+import mocha from 'steal-mocha';
 
-F.attach(QUnit);
+F.attach(mocha);
 
-QUnit.module('voice-guided-interview functional smoke test', {
-  beforeEach() {
+describe('voice-guided-interview functional smoke test', () => {
+  beforeEach(() => {
     F.open('../development.html');
-  }
+  });
+
+  it('voice-guided-interview main page shows up', () => {
+    F('title').text('Voice Guided Interview', 'Title is set');
+  });
 });
 
-QUnit.test('voice-guided-interview main page shows up', function() {
-  F('title').text('voice-guided-interview', 'Title is set');
-});

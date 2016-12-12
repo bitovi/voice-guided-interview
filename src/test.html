@@ -1,4 +1,11 @@
 <title>voice-guided-interview tests</title>
-<script>FuncUnit = { frameMode: true };</script>
-<script src="../node_modules/steal/steal.js" main="voice-guided-interview/test/"></script>
-<div id="qunit-fixture"></div>
+<script>
+  reload = { once: function() {} };
+  FuncUnit = { frameMode: true };
+  steal = {
+    instantiated: {
+      'live-reload': { 'default': window.reload, __useDefault: true }
+    }
+  };
+</script>
+<script src="../node_modules/steal/steal.js" main="voice-guided-interview/test/" data-mocha="bdd"></script>
