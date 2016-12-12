@@ -1,12 +1,14 @@
+<can-import from="voice-guided-interview/voiceInput/voiceInput" />
+
 <div>{{prompt}}</div>
-<input type="text" {($value)}="providedAnswer"></input>
+<vgi-voice-input {(transcript)}="providedAnswer"></vgi-voice-input>
 
 {{#if providedAnswer}}
   <div>
     {{#if answer}}
       {{answer}}
     {{else}}
-      Sorry, I didn't understand that. Did you mean one of these?
+      Sorry, I don't understand "{{providedAnswer}}". Did you mean one of these?
       <ul>
       {{#each options}}
         <li ($click)="createAnswer(providedAnswer, .)">{{.}}</li>
