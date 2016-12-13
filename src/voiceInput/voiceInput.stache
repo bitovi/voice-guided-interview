@@ -1,4 +1,3 @@
-<input
-type="submit"
-($click)="toggleListening"
-value="{{#if listening}}Stop Listening{{else}}Listen{{/if}}" >
+<div class="round-button {{#if listening}}listening{{/if}}" ($click)="toggleListening">
+  {{#if listening}}Stop Listening{{else}}Listen{{/if}}
+</div>

@@ -8,7 +8,9 @@
       {(question-number)}="questionNumber"
     ></vgi-question>
   {{else}}
+  <div id="answers">
     Ok, you're going to have a {{displayAnswers(answers)}}
+  </div>
   {{/unless}}
 {{else}}
   Loading Questions...
