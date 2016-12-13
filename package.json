@@ -13,7 +13,9 @@
     "start": "done-serve --port 8080 --proxy http://localhost:3030",
     "develop": "done-serve --develop --port 8080 --proxy http://localhost:3030",
     "document": "documentjs",
-    "build": "node build"
+    "build": "node build",
+    "deploy": "firebase deploy",
+    "deploy:ci": "firebase deploy --token \"$FIREBASE_TOKEN\""
   },
   "main": "voice-guided-interview/index.stache!done-autorender",
   "files": [
@@ -37,7 +39,7 @@
     ],
     "envs": {
       "server-production": {
-        "baseURL": "https://voice-guided-interview.firebaseapp.com/"
+        "renderingBaseURL": "https://voice-guided-interview.firebaseapp.com/"
       }
     },
     "map": {
@@ -61,33 +63,13 @@
   "devDependencies": {
     "can-fixture": "^0.1.2",
     "chai": "^3.5.0",
-    "donejs-cli": "^0.9.4",
     "documentjs": "^0.4.2",
+    "donejs-cli": "^0.9.4",
     "donejs-deploy": "^0.4.0",
+    "firebase-tools": "^3.2.0",
     "funcunit": "~3.0.0",
     "steal-mocha": "^0.0.3",
     "steal-tools": "^0.16.0",
     "testee": "^0.2.4"
-  },
-  "donejs": {
-    "deploy": {
-      "root": "dist",
-      "services": {
-        "production": {
-          "type": "firebase",
-          "config": {
-            "firebase": "voice-guided-interview",
-            "public": "./dist",
-            "headers": [{
-              "source": "/**",
-              "headers": [{
-                "key": "Access-Control-Allow-Origin",
-                "value": "*"
-              }]
-            }]
-          }
-        }
-      }
-    }
   }
 }
